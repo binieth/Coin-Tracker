@@ -4,14 +4,19 @@ const request = require('request');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: true}));
 
-app.get("/", function(req, res){
-    res.sendFile(__dirname + "/index.html");
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use('/cssFile', express.static(__dirname + '/public'));
+
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/index.html');
+   
 });
 
 
-app.post("/", function(req, res){
+app.post('/', function(req, res){
 
     var crypto = req.body.crypto;
     var fiat = req.body.fiat;
@@ -44,6 +49,6 @@ app.post("/", function(req, res){
 });
 });
 
-app.listen(3000, function(){
+var server = app.listen(3000, function(){
     console.log('Server is running on port 3000');
 });
